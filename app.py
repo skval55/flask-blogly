@@ -41,8 +41,12 @@ def post_new_user():
     """add new user and redirect ro list"""
 
     first_name = request.form['first_name']
+    if first_name == "":
+        return redirect('/users')
     last_name = request.form['last_name']
     image_url = request.form['image_url']
+    if image_url == "":
+        image_url = None
 
     user = User (first_name=first_name, last_name=last_name, image_url=image_url)
     db.session.add(user)
@@ -55,8 +59,6 @@ def show_user(user_id):
     """list users on page with button to add user"""
 
     user = User.query.get_or_404(user_id)
-    if user.image_url == "":
-        user.image_url = 'https://icon-library.com/images/image-missing-icon/image-missing-icon-15.jpg'
     return render_template("user_profile.html", user=user )
 
 @app.route('/users/<int:user_id>/edit')

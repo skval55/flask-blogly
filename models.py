@@ -25,7 +25,6 @@ class User(db.Model):
     last_name = db.Column(db.String(20),
                     nullable=False)
     image_url = db.Column(db.Text, nullable=False, default=default_img)
-    # image_url = db.Column(db.Text, nullable=False, default="https://icon-library.com/images/image-missing-icon/image-missing-icon-15.jpg")
 
 
 

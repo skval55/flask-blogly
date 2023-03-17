@@ -8,12 +8,13 @@
 
 <form action="/users/new" method="POST">
     <label for="first_name">First name</label><br>
-    <input type="text" name="first_name" id="first_name" placeholder="Enter a first name"><br>
+    <input class="form-control" type="text" name="first_name" id="first_name" placeholder="Enter a first name"><br>
     <label for="last_name">Last name</label><br>
-    <input type="text" name="last_name" id="last_name" placeholder="Enter a last name"><br>
+    <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Enter a last name"><br>
     <label for="image_url">Image URl</label><br>
-    <input type="text" name="image_url" id="image_url" placeholder="Enter a URL for user Image"><br>
-    <button type="submit">Add user</button>
+    <input class="form-control" type="text" name="image_url" id="image_url"
+        placeholder="Enter a URL for user Image"><br>
+    <button class="btn btn-success" type="submit">Add user</button>
 </form>
 
 {% endblock %}

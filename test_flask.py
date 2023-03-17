@@ -4,8 +4,8 @@ from app import app
 from models import db, User
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///test_blogly'
-app.config['SQLALCHEMY_ECHO'] = False
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
+app.config['SQLALCHEMY_ECHO'] = True
 
 app.config['TESTING'] = True
 
@@ -46,7 +46,7 @@ class BloglyTestCase(TestCase):
             html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn('<a href="/users/new">Add User</a>',html)
+            self.assertIn('>Add User</a>',html)
 
     def test_new_user(self):
         with app.test_client() as client:
@@ -89,4 +89,4 @@ class BloglyTestCase(TestCase):
             html = response.get_data(as_text=True)
 
             self.assertEqual(response.status_code, 200)
-            self.assertIn('<a href="/users/new">Add User</a>', html)
+            self.assertIn('>Add User</a>', html)
