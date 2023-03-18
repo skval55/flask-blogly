@@ -3,15 +3,35 @@
 {% block title %}User {{user.first_name}}{% endblock %}
 
 {% block content %}
+<div class="d-flex flex-row">
+    <div class="m-2">
+        <img src="{{user.image_url}}" alt="">
+    </div>
 
-<img src="{{user.image_url}}" alt="">
 
-<h2>{{user.first_name}} {{user.last_name}}</h2>
+    <div>
+        <h2>{{user.first_name}} {{user.last_name}}</h2>
 
-<a class="btn btn-info m-2" href="/users/{{user.id}}/edit">edit</a>
-<form action="/users/{{user.id}}/delete" method="POST">
-    <button class="btn btn-danger" type="submit">delete</button>
-</form>
 
+        <form action="/users/{{user.id}}/delete" method="POST">
+            <a class="btn btn-outline-primary m-1" href="/users/{{user.id}}/edit">edit</a>
+            <button class="btn btn-danger" type="submit">delete</button>
+        </form>
+
+        {% if posts != [] %}
+        <h3 class="mt-2">Posts</h3>
+
+        <ul>
+            {% for post in posts %}
+            <li><a href="/posts/{{post.id}}">{{post.title}}</a></li>
+            {% endfor %}
+        </ul>
+
+        {% else %}
+        <h3>No Posts Yet</h3>
+        {% endif %}
+        <a class="btn btn-outline-primary my-2" href="/users/{{user.id}}/posts/new">Add Post</a>
+    </div>
+</div>
 
 {% endblock %}

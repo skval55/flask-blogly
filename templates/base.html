@@ -11,9 +11,11 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 
-<body class="m-4">
-    <h1>BLOGLY</h1>
-    {% block content %}BODY CONTENT GOES HERE{% endblock %}
+<body class="">
+    <h1 class="bg-dark p-2 "><a class="text-decoration-none text-white" href="/users">BLOGLY</a></h1>
+    <div class="m-4">
+        {% block content %}BODY CONTENT GOES HERE{% endblock %}
+    </div>
 </body>
 
 </html>
