@@ -12,9 +12,13 @@
         value="{{post.title}}"><br>
     <label for="content">Content</label><br>
     <textarea class="form-control" name="content" id="content">{{post.content}}</textarea><br>
+    {% for tag in tags %}
+    <input type="checkbox" id="tag" name="tag" value="{{tag.id}}" {% if tag in post.tags %}checked{% endif %}>
+    <label for="tag">{{tag.name}}</label><br>
+    {% endfor %}
     <a class="btn btn-danger m-2" href="/users/{{post.user.id}}">Cancel</a>
+
     <button class="btn btn-outline-success" type="submit">Edit</button>
 </form>
-
 
 {% endblock %}

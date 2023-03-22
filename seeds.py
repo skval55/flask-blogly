@@ -1,5 +1,5 @@
 
-from models import User, db, Post
+from models import User, db, Post, Tag, PostTag
 from app import app
 
 # Create all tables
@@ -22,4 +22,13 @@ p3 = Post(title="really!", content="Trust me guys! I'm really not that smelly!",
 p4 = Post(title="Sup Chumps", content="Bark Bark Chumps", user_id=4)
 
 db.session.add_all([p1, p2, p3, p4])
+db.session.commit()
+
+dogs_rule = Tag(name = "dogsRule")
+db.session.add(dogs_rule)
+db.session.commit()
+
+pt1 = PostTag(post_id = 4, tag_id = 1)
+
+db.session.add(pt1)
 db.session.commit()

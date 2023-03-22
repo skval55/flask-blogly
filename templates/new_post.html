@@ -11,6 +11,10 @@
     <input class="form-control" type="text" name="title" id="title" placeholder="Enter a Title"><br>
     <label for="content">Content</label><br>
     <textarea class="form-control" name="content" id="content"></textarea><br>
+    {% for tag in tags %}
+    <input type="checkbox" id="tag" name="tag" value="{{tag.id}}">
+    <label for="tag">{{tag.name}}</label><br>
+    {% endfor %}
     <a class="btn btn-danger m-2" href="/users/{{user.id}}">Cancel</a>
     <button class="btn btn-outline-success" type="submit">Add</button>
 </form>

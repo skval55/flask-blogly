@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User, Post
+from models import db, User, Post, Tag, PostTag
 
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
@@ -20,6 +20,9 @@ class BloglyTestCase(TestCase):
     def setUp(self):
         """Clean up any existing users"""
 
+        
+        PostTag.query.delete()
+        Tag.query.delete()
         Post.query.delete()
         User.query.delete()
 
@@ -34,6 +37,21 @@ class BloglyTestCase(TestCase):
         db.session.commit()
 
         self.post_id = post.id
+
+        tag = Tag(name = "dogsRule")
+        db.session.add(tag)
+        db.session.commit()
+
+        self.tag_id = tag.id
+
+
+        pt1 = PostTag(post_id = self.post_id, tag_id = self.tag_id)
+
+        db.session.add(pt1)
+        db.session.commit()
+
+        
+
 
 
     def tearDown(self):
@@ -146,3 +164,62 @@ class BloglyTestCase(TestCase):
 
             self.assertEqual(response.status_code, 200)
             self.assertIn('<h2>Skate board</h2>', html)
+
+    def test_show_tags(self):
+        with app.test_client() as client:
+            response = client.get(f'/tags')
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<h2>Tags</h2>', html)
+ 
+    def test_show_single_tag(self):
+        with app.test_client() as client:
+            response = client.get(f'/tags/{self.tag_id}')
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<h3>dogsRule</h3>', html)
+   
+    def test_new_tag_form(self):
+        with app.test_client() as client:
+            response = client.get(f'/tags/new')
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<h1>Create new tag</h1>', html)
+
+    def test_posted_tag(self):
+        with app.test_client() as client:
+            d = {'tag': 'catsRule'}
+            response = client.post(f'/tags/new', data = d, follow_redirects=True)
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('>catsRule</a>', html)
+   
+    def test_edit_tag_form(self):
+        with app.test_client() as client:
+            response = client.get(f'/tags/{self.tag_id}/edit')
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<h1>Edit tag</h1>', html)
+
+
+    def test_posted_edit_tag(self):
+        with app.test_client() as client:
+            d = {'tag': 'miceRule'}
+            response = client.post(f'/tags/{self.tag_id}/edit', data = d, follow_redirects=True)
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('>miceRule</a>', html)
+   
+    def test_delete_tag(self):
+        with app.test_client() as client:
+            response = client.post(f'/tags/{self.tag_id}/delete', follow_redirects=True)
+            html = response.get_data(as_text=True)
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn('<h2>Tags</h2>', html)
